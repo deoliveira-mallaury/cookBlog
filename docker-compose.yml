@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - mongodb
+
+  frontend:
+    build: ./frontend/cookBlog
+    ports:
+      - '4200:4200'
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: cookingAdmin
+      POSTGRES_PASSWORD: cookingPass
+      POSTGRES_DB: cookblogdb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  postgres-data:
+  mongo-data:
+
